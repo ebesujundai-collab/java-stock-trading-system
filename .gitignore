@@ -1,0 +1,16 @@
+# Maven / Java build outputs
+/target/
+/out/
+*.class
+
+# Local trading history
+/trade_history.csv
+
+# IntelliJ IDEA local settings
+/.idea/
+*.iml
+*.iws
+
+# OS metadata
+.DS_Store
+Thumbs.db
