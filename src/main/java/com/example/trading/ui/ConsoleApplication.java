@@ -10,6 +10,7 @@ import com.example.trading.validator.StockCodeValidator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 
 /** 入力の案内、再入力、結果の表示を受け持つ。取引条件やCSV処理はサービスに任せる。 */
 public class ConsoleApplication {
@@ -68,18 +69,19 @@ public class ConsoleApplication {
         if (stockCode == null) {
             return false;
         }
-        String side = readTradeType();
-        if (side == null) {
+
+        TradeType tradeType = readTradeType();
+        if (tradeType == null) {
             return false;
         }
-        String quantity = readQuantity();
+
+        BigInteger quantity = readQuantity();
         if (quantity == null) {
             return false;
         }
 
         try {
-            tradingService.execute(stockCode, side, quantity);
-            // 保存に成功してから、取引成立を利用者に知らせる。
+            tradingService.execute(stockCode, tradeType, quantity);
             output.println("取引が成立しました。CSVに保存しました。");
         } catch (IllegalArgumentException exception) {
             output.println("取引できません: " + exception.getMessage());
@@ -116,30 +118,28 @@ public class ConsoleApplication {
         }
     }
 
-    private String readTradeType() throws IOException {
+    private TradeType readTradeType() throws IOException {
         while (true) {
             String value = readInput("売買区分（BUY / SELL）: ");
             if (value == null) {
                 return null;
             }
             try {
-                TradeType.fromInput(value);
-                return value;
+                return TradeType.fromInput(value);
             } catch (IllegalArgumentException exception) {
                 printInputError(exception);
             }
         }
     }
 
-    private String readQuantity() throws IOException {
+    private BigInteger readQuantity() throws IOException {
         while (true) {
             String value = readInput("株数（1以上の整数）: ");
             if (value == null) {
                 return null;
             }
             try {
-                QuantityValidator.parse(value);
-                return value;
+                return QuantityValidator.parse(value);
             } catch (IllegalArgumentException exception) {
                 printInputError(exception);
             }
