@@ -36,7 +36,7 @@ class TradingServiceTest {
         Clock clock = Clock.fixed(Instant.parse("2026-10-07T00:15:32.123456789Z"), ZoneOffset.UTC);
         TradingService service = new TradingService(repository, new TradingHoursService(), clock);
 
-        Trade trade = service.execute("7203", "BUY", "100");
+        Trade trade = service.execute("7203", TradeType.BUY, BigInteger.valueOf(100));
 
         assertEquals(LocalDateTime.of(2026, 10, 7, 9, 15, 32), trade.getTradeDateTime());
         assertEquals("7203", trade.getStockCode());
@@ -56,7 +56,7 @@ class TradingServiceTest {
         TradingService service = serviceAt(csv, "2026-10-07T09:00:00");
         String hugeQuantity = "9999999999999999999999999999999999999999";
 
-        Trade trade = service.execute("9A7A", "SELL", hugeQuantity);
+        Trade trade = service.execute("9A7A", TradeType.SELL, new BigInteger(hugeQuantity));
 
         assertEquals(TradeType.SELL, trade.getTradeType());
         assertEquals(new BigInteger(hugeQuantity), trade.getQuantity());
@@ -70,7 +70,7 @@ class TradingServiceTest {
         Path csv = temporaryDirectory.resolve("history.csv");
         TradingService service = serviceAt(csv, "2026-10-07T09:00:00");
 
-        assertThrows(IllegalArgumentException.class, () -> service.execute(stockCode, side, quantity));
+        assertThrows(IllegalArgumentException.class, () -> service.execute(stockCode, TradeType.valueOf(side), new BigInteger(quantity)));
 
         assertFalse(Files.exists(csv));
     }
@@ -79,10 +79,10 @@ class TradingServiceTest {
     void invalidTradeDoesNotModifyAnExistingHistory() throws IOException {
         Path csv = temporaryDirectory.resolve("history.csv");
         TradingService service = serviceAt(csv, "2026-10-07T09:00:00");
-        service.execute("7203", "BUY", "1");
+        service.execute("7203", TradeType.BUY, BigInteger.ONE);
         String before = Files.readString(csv);
 
-        assertThrows(IllegalArgumentException.class, () -> service.execute("7203", "SELL", "0"));
+        assertThrows(IllegalArgumentException.class, () -> service.execute("7203", TradeType.SELL, BigInteger.ZERO));
 
         assertEquals(before, Files.readString(csv));
     }
@@ -95,7 +95,7 @@ class TradingServiceTest {
         Path csv = temporaryDirectory.resolve("history.csv");
         TradingService service = serviceAt(csv, japaneseDateTime);
 
-        assertThrows(IllegalArgumentException.class, () -> service.execute("7203", "BUY", "1"));
+        assertThrows(IllegalArgumentException.class, () -> service.execute("7203", TradeType.BUY, BigInteger.ONE));
 
         assertFalse(Files.exists(csv));
     }
@@ -116,7 +116,7 @@ class TradingServiceTest {
         Path directoryInsteadOfCsv = Files.createDirectory(temporaryDirectory.resolve("history.csv"));
         TradingService service = serviceAt(directoryInsteadOfCsv, "2026-10-07T09:00:00");
 
-        assertThrows(IOException.class, () -> service.execute("7203", "BUY", "1"));
+        assertThrows(IOException.class, () -> service.execute("7203", TradeType.BUY, BigInteger.ONE));
     }
 
     @Test
@@ -126,7 +126,7 @@ class TradingServiceTest {
         TradingService service = new TradingService(
                 new TradeHistoryRepository(csv), new TradingHoursService(), clock);
 
-        Trade trade = service.execute("7203", "BUY", "1");
+        Trade trade = service.execute("7203", TradeType.BUY, BigInteger.ONE);
 
         assertEquals(1, clock.readCount);
         assertEquals(LocalDateTime.of(2026, 10, 7, 11, 30), trade.getTradeDateTime());
