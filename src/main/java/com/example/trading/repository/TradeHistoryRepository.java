@@ -41,7 +41,6 @@ public final class TradeHistoryRepository {
         String row = toCsvRow(trade);
 
         try {
-            // 既存データを先に検証し、不正な行を残したまま追記しない。
             findAll();
 
             long fileSize = Files.notExists(filePath) ? 0 : Files.size(filePath);
@@ -49,7 +48,6 @@ public final class TradeHistoryRepository {
             if (fileSize == 0) {
                 addition.append(HEADER).append('\n');
             } else if (!endsWithLineBreak()) {
-                // 外部エディターで末尾の改行が消されても、別の行として追記する。
                 addition.append('\n');
             }
             addition.append(row).append('\n');
@@ -92,7 +90,6 @@ public final class TradeHistoryRepository {
     }
 
     private Trade parseRow(String line, int lineNumber) throws IOException {
-        // -1を指定すると、末尾の空欄も残るため列数と値を正しく検証できる。
         String[] columns = line.split(",", -1);
         if (columns.length != COLUMN_COUNT) {
             throw invalidCsv(lineNumber, "列数は4列である必要があります。", null);
@@ -100,9 +97,12 @@ public final class TradeHistoryRepository {
 
         try {
             LocalDateTime tradeDateTime = LocalDateTime.parse(columns[0], DATE_TIME_FORMATTER);
+
+            // CSVはアプリ外から変更される可能性があるため、読み込む時点で1回だけ検証する。
             String stockCode = StockCodeValidator.validate(columns[1]);
             TradeType tradeType = TradeType.fromInput(columns[2]);
             BigInteger quantity = QuantityValidator.parse(columns[3]);
+
             return new Trade(tradeDateTime, stockCode, tradeType, quantity);
         } catch (DateTimeParseException exception) {
             throw invalidCsv(lineNumber, "取引日時が不正です。形式: yyyy-MM-dd HH:mm:ss", exception);
@@ -112,11 +112,11 @@ public final class TradeHistoryRepository {
     }
 
     private String toCsvRow(Trade trade) {
-        // この4項目にはカンマ・改行・引用符が含まれないため、CSVの引用処理は不要。
-        String stockCode = StockCodeValidator.validate(trade.getStockCode());
-        BigInteger quantity = QuantityValidator.parse(trade.getQuantity().toString());
+        // Tradeに入っている値はすでに検証済みなので、ここでは再検証しない。
         return DATE_TIME_FORMATTER.format(trade.getTradeDateTime()) + ","
-                + stockCode + "," + trade.getTradeType().name() + "," + quantity;
+                + trade.getStockCode() + ","
+                + trade.getTradeType().name() + ","
+                + trade.getQuantity();
     }
 
     private boolean endsWithLineBreak() throws IOException {
