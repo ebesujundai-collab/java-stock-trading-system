@@ -7,19 +7,17 @@ public enum HistoryPeriod {
     YESTERDAY;
 
     public static HistoryPeriod fromInput(String input) {
-        if (input == null) {
-            throw invalidInput();
-        }
-        return switch (input) {
-            case "all" -> ALL;
-            case "today" -> TODAY;
-            case "yesterday" -> YESTERDAY;
-            default -> throw invalidInput();
-        };
-    }
+        switch (input) {
+            case "", "all":
+                return ALL;
+            case "today":
+                return TODAY;
+            case "yesterday":
+                return YESTERDAY;
+            default:
+                IllegalArgumentException exception = new IllegalArgumentException("all、today、yesterdayのいずれか");
 
-    private static IllegalArgumentException invalidInput() {
-        return new IllegalArgumentException(
-                "履歴の期間はall、today、yesterdayのいずれかを入力してください。");
+                throw exception;
+        }
     }
 }
