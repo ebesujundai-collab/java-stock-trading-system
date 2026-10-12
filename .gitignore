@@ -4,7 +4,7 @@
 *.class
 
 # Local trading history
-/trade_history.csv
+/src/test/java/com/example/trading/validator/trade_history.csv
 
 # IntelliJ IDEA local settings
 /.idea/

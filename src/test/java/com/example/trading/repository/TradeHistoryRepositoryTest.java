@@ -35,7 +35,7 @@ class TradeHistoryRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        file = directory.resolve("trade_history.csv");
+        file = directory.resolve("com/example/trading/csv/trade_history.csv");
         repository = new TradeHistoryRepository(file);
     }
 
@@ -200,7 +200,7 @@ class TradeHistoryRepositoryTest {
     void missingParentDirectoryProducesWriteErrorWithoutCreatingParents() {
         Path missingParent = directory.resolve("missing");
         TradeHistoryRepository missingParentRepository =
-                new TradeHistoryRepository(missingParent.resolve("trade_history.csv"));
+                new TradeHistoryRepository(missingParent.resolve("com/example/trading/csv/trade_history.csv"));
 
         IOException exception = assertThrows(IOException.class,
                 () -> missingParentRepository.append(firstTrade()));

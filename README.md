@@ -44,7 +44,7 @@ java -jar target/java-stock-trading-system-1.0-SNAPSHOT.jar
 
 取引時間はAsia/Tokyoの月〜金、09:00:00〜11:30:00と12:30:00〜15:30:00です。開始・終了ちょうどを含み、土日と時間外は記録しません。祝日は考慮しません。昨日は前営業日ではなく前暦日です。
 
-取引が成立すると、作業ディレクトリの`trade_history.csv`にUTF-8で追記します。初回に次のヘッダーを作成します。履歴の表示でCSVを並べ替えることはありません。
+取引が成立すると、作業ディレクトリの`src/main/java/com/example/trading/csv/trade_history.csv`にUTF-8で追記します。初回に次のヘッダーを作成します。履歴の表示でCSVを並べ替えることはありません。
 
 ```csv
 tradeDateTime,stockCode,side,quantity

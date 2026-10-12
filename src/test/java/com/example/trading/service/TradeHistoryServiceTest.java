@@ -36,7 +36,7 @@ class TradeHistoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        file = directory.resolve("trade_history.csv");
+        file = directory.resolve("com/example/trading/csv/trade_history.csv");
         repository = new TradeHistoryRepository(file);
         // UTCでは10月6日、東京では10月7日00:30。時計のzoneにも依存させない。
         Clock clock = Clock.fixed(Instant.parse("2026-10-06T15:30:00Z"), ZoneOffset.UTC);

@@ -18,7 +18,7 @@ import java.time.Clock;
 public class Main {
     public static void main(String[] args) {
         Clock clock = Clock.system(TradingHoursService.JAPAN_ZONE);
-        TradeHistoryRepository repository = new TradeHistoryRepository(Path.of("trade_history.csv"));
+        TradeHistoryRepository repository = new TradeHistoryRepository(Path.of("src/main/java/com/example/trading/csv/trade_history.csv"));
         TradingHoursService tradingHoursService = new TradingHoursService();
         TradingService tradingService = new TradingService(repository, tradingHoursService, clock);
         TradeHistoryService historyService = new TradeHistoryService(repository, clock);
