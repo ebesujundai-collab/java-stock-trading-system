@@ -54,11 +54,6 @@ public class TradeHistoryTablePrinter {
     }
 
     private String padRight(String text, int length) {
-
-        while (text.length() < length) {
-            text = text + " ";
-        }
-
-        return text;
+        return text + " ".repeat(Math.max(0, length - text.length()));
     }
 }
