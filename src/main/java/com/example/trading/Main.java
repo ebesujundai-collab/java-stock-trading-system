@@ -25,24 +25,15 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        TradeHistoryRepository repository =
-                new TradeHistoryRepository(
-                        Path.of("src/main/java/com/example/trading/csv/trade_history.csv")
-                );
+        TradeHistoryRepository repository = new TradeHistoryRepository(Path.of("src/main/java/com/example/trading/csv/trade_history.csv"));
 
-        TradingHoursService tradingHoursService =
-                new TradingHoursService();
+        TradingHoursService tradingHoursService = new TradingHoursService();
 
-        Clock clock =
-                Clock.system(TradingHoursService.JAPAN_ZONE);
+        Clock clock = Clock.system(TradingHoursService.JAPAN_ZONE);
 
-        TradeHistoryService historyService =
-                new TradeHistoryService(repository, clock);
+        TradeHistoryService historyService = new TradeHistoryService(repository, clock);
 
-        TradeHistoryTablePrinter tablePrinter =
-                new TradeHistoryTablePrinter(
-                        new PrintWriter(System.out, true)
-                );
+        TradeHistoryTablePrinter tablePrinter = new TradeHistoryTablePrinter(new PrintWriter(System.out, true));
 
         while (true) {
 

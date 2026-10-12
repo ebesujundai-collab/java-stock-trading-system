@@ -5,7 +5,6 @@ import com.example.trading.model.TradeType;
 import com.example.trading.repository.TradeHistoryRepository;
 import com.example.trading.service.TradeHistoryService;
 import com.example.trading.service.TradingHoursService;
-import com.example.trading.service.TradingService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
