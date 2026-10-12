@@ -48,6 +48,10 @@ public class TradeHistoryRepository {
         // 0行目はヘッダーなので1行目から読む
         for (int i = 1; i < lines.size(); i++) {
 
+            if (lines.get(i).isBlank()) {
+                continue;
+            }
+
             String[] columns = lines.get(i).split(",");
 
             LocalDateTime dateTime = LocalDateTime.parse(columns[0], FORMAT);
