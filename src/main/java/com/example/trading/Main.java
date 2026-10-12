@@ -55,66 +55,11 @@ public class Main {
             String menu = scanner.nextLine();
 
             if (menu.equals("1")) {
-
-                try {
-                    LocalDateTime now =
-                            LocalDateTime.now(TradingHoursService.JAPAN_ZONE);
-
-                    tradingHoursService.validate(now);
-
-                    System.out.print("銘柄コード: ");
-                    String stockCode =
-                            StockCodeValidator.validate(scanner.nextLine());
-
-                    System.out.print("売買区分（BUY / SELL）: ");
-                    TradeType tradeType =
-                            TradeType.fromInput(scanner.nextLine());
-
-                    System.out.print("株数: ");
-                    BigInteger quantity =
-                            QuantityValidator.parse(scanner.nextLine());
-
-                    Trade trade = new Trade(
-                            now.truncatedTo(ChronoUnit.SECONDS),
-                            stockCode,
-                            tradeType,
-                            quantity
-                    );
-
-                    repository.append(trade);
-
-                    System.out.println("取引が成立しました。");
-
-                } catch (IllegalArgumentException e) {
-                    System.out.println("取引できません: " + e.getMessage());
-
-                } catch (IOException e) {
-                    System.out.println("保存できませんでした: " + e.getMessage());
-                }
+                trade(scanner, repository, tradingHoursService);
             }
 
             else if (menu.equals("2")) {
-
-                try {
-                    System.out.print(
-                            "履歴の期間（all / today / yesterday）: "
-                    );
-
-                    HistoryPeriod period =
-                            HistoryPeriod.fromInput(scanner.nextLine());
-
-                    tablePrinter.print(
-                            historyService.findByPeriod(period)
-                    );
-
-                } catch (IllegalArgumentException e) {
-                    System.out.println("入力エラー: " + e.getMessage());
-
-                } catch (IOException e) {
-                    System.out.println(
-                            "履歴を読み込めませんでした: " + e.getMessage()
-                    );
-                }
+                showHistory(scanner, historyService, tablePrinter);
             }
 
             else if (menu.equals("0")) {
@@ -125,6 +70,77 @@ public class Main {
             else {
                 System.out.println("1、2、0のどれかを入力してください。");
             }
+        }
+    }
+
+    private static void trade(
+            Scanner scanner,
+            TradeHistoryRepository repository,
+            TradingHoursService tradingHoursService
+    ) {
+
+        try {
+            LocalDateTime now =
+                    LocalDateTime.now(TradingHoursService.JAPAN_ZONE);
+
+            tradingHoursService.validate(now);
+
+            System.out.print("銘柄コード: ");
+            String stockCode =
+                    StockCodeValidator.validate(scanner.nextLine());
+
+            System.out.print("売買区分（BUY / SELL）: ");
+            TradeType tradeType =
+                    TradeType.fromInput(scanner.nextLine());
+
+            System.out.print("株数: ");
+            BigInteger quantity =
+                    QuantityValidator.parse(scanner.nextLine());
+
+            Trade trade = new Trade(
+                    now.truncatedTo(ChronoUnit.SECONDS),
+                    stockCode,
+                    tradeType,
+                    quantity
+            );
+
+            repository.append(trade);
+
+            System.out.println("取引が成立しました。");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("取引できません: " + e.getMessage());
+
+        } catch (IOException e) {
+            System.out.println("保存できませんでした: " + e.getMessage());
+        }
+    }
+
+    private static void showHistory(
+            Scanner scanner,
+            TradeHistoryService historyService,
+            TradeHistoryTablePrinter tablePrinter
+    ) {
+
+        try {
+            System.out.print(
+                    "履歴の期間（all / today / yesterday）: "
+            );
+
+            HistoryPeriod period =
+                    HistoryPeriod.fromInput(scanner.nextLine());
+
+            tablePrinter.print(
+                    historyService.findByPeriod(period)
+            );
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("入力エラー: " + e.getMessage());
+
+        } catch (IOException e) {
+            System.out.println(
+                    "履歴を読み込めませんでした: " + e.getMessage()
+            );
         }
     }
 }
