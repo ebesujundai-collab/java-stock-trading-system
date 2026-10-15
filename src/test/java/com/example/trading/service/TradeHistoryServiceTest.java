@@ -1,8 +1,9 @@
 package com.example.trading.service;
 
-import com.example.trading.model.HistoryPeriod;
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.ui.HistoryPeriod;
+import com.example.trading.repository.Trade;
+import com.example.trading.ui.TradeHistoryService;
+import com.example.trading.validator.TradeType;
 import com.example.trading.repository.TradeHistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

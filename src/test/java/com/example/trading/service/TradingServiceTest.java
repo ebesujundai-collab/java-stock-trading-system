@@ -1,8 +1,9 @@
 package com.example.trading.service;
 
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.repository.Trade;
+import com.example.trading.validator.TradeType;
 import com.example.trading.repository.TradeHistoryRepository;
+import com.example.trading.validator.TradingHoursService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,7 +1,7 @@
 package com.example.trading.ui;
 
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.repository.Trade;
+import com.example.trading.validator.TradeType;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;

@@ -7,8 +7,7 @@ public final class QuantityValidator {
     private static final String ERROR_MESSAGE =
             "株数は1以上の整数を入力してください。";
 
-    private QuantityValidator() {
-    }
+    private QuantityValidator() {}
 
     public static BigInteger parse(String input) {
 

@@ -1,4 +1,4 @@
-package com.example.trading.model;
+package com.example.trading.validator;
 
 /** 売買区分を2種類に限定する。 */
 public enum TradeType {

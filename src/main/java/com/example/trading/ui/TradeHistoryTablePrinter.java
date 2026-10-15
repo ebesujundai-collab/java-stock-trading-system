@@ -1,6 +1,6 @@
 package com.example.trading.ui;
 
-import com.example.trading.model.Trade;
+import com.example.trading.repository.Trade;
 
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package com.example.trading.service;
+package com.example.trading.validator;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

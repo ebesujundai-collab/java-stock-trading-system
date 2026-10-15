@@ -1,5 +1,6 @@
 package com.example.trading.model;
 
+import com.example.trading.validator.TradeType;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;

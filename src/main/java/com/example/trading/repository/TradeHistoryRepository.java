@@ -1,7 +1,6 @@
 package com.example.trading.repository;
 
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.validator.TradeType;
 
 import java.io.IOException;
 import java.math.BigInteger;

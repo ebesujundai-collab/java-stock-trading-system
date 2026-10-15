@@ -1,8 +1,8 @@
-package com.example.trading.service;
+package com.example.trading.ui;
 
-import com.example.trading.model.HistoryPeriod;
-import com.example.trading.model.Trade;
+import com.example.trading.repository.Trade;
 import com.example.trading.repository.TradeHistoryRepository;
+import com.example.trading.validator.TradingHoursService;
 
 import java.io.IOException;
 import java.time.Clock;

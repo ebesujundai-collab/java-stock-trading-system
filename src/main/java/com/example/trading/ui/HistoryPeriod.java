@@ -1,4 +1,4 @@
-package com.example.trading.model;
+package com.example.trading.ui;
 
 /** 履歴表示で選択できる期間。入力は小文字、コード内ではenum定数を使う。 */
 public enum HistoryPeriod {

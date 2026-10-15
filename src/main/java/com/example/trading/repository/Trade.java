@@ -1,4 +1,6 @@
-package com.example.trading.model;
+package com.example.trading.repository;
+
+import com.example.trading.validator.TradeType;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;

@@ -1,11 +1,11 @@
 package com.example.trading;
 
-import com.example.trading.model.HistoryPeriod;
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.ui.HistoryPeriod;
+import com.example.trading.repository.Trade;
+import com.example.trading.validator.TradeType;
 import com.example.trading.repository.TradeHistoryRepository;
-import com.example.trading.service.TradeHistoryService;
-import com.example.trading.service.TradingHoursService;
+import com.example.trading.ui.TradeHistoryService;
+import com.example.trading.validator.TradingHoursService;
 import com.example.trading.ui.TradeHistoryTablePrinter;
 import com.example.trading.validator.QuantityValidator;
 import com.example.trading.validator.StockCodeValidator;

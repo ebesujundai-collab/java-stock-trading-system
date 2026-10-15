@@ -1,7 +1,6 @@
 package com.example.trading.repository;
 
-import com.example.trading.model.Trade;
-import com.example.trading.model.TradeType;
+import com.example.trading.validator.TradeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
