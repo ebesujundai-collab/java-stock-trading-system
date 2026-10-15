@@ -1,6 +1,5 @@
 package com.example.trading.model;
 
-import com.example.trading.ui.HistoryPeriod;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
