@@ -1,14 +1,15 @@
 package com.example.trading.validator;
 
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public final class Checks {
-    private checks() {
+    private Checks() {
     }
     public static boolean isValidSymbol(String str) {
         String code = str;
-        if (code.length() i =4) {
+        if (code.length() !=4) {
             return false;
         } else {
             char a = code.charAt(0);
@@ -20,7 +21,7 @@ public final class Checks {
                     return false;
                 } else {
                     {
-                        for (int i = 0,i < 4 ; i++) {
+                        for (int i = 0; i < 4;i++) {
                         char z = code.charAt(i);
                         String forbidden = "BEIOQVZabcdefghijklmnopqrstuvwxyz";
                         if (forbidden.indexOf(z) >=0) {
@@ -33,7 +34,7 @@ public final class Checks {
             }
         }
     }
-    public static boolean isValidHour(LocalDatetime date) {
+    public static boolean isValidHour(LocalDateTime date) {
         DayOfWeek b = date.getDayOfWeek();
         if (DayOfWeek.SATURDAY == b || DayOfWeek.SUNDAY == b) {
             return false;
