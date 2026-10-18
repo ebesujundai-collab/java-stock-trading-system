@@ -1,5 +1,6 @@
 package com.example.trading.validator;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,8 +10,8 @@ public final class Checks {
     private Checks() {
     }
 
-    public static boolean isValidSymbol(String str) {
-        String code = str;
+    public static boolean isValidSymbol(String inputSymbol) {
+        String code = inputSymbol;
         if (code.length() != 4) {
             return false;
         } else {
@@ -72,20 +73,27 @@ public final class Checks {
 
     public static boolean isValidPrice(String prices) {
         try {
-            double price = Double.parseDouble(prices);
+            BigDecimal price = new BigDecimal(prices);
 
-            if (price <= 0) {
+            if (price.compareTo(BigDecimal.ZERO) <= 0) {
                 return false;
             }
-            if (price > 999999999) {
+
+            if (price.compareTo(new BigDecimal("999999999")) > 0) {
                 return false;
             }
+
+            if (price.scale() > 1) {
+                return false;
+            }
+
             return true;
 
         } catch (NumberFormatException e) {
             return false;
         }
     }
+
     public static boolean isValidQuantity(String quantitys) {
         try {
             long quantity = Long.parseLong(quantitys);
@@ -96,7 +104,7 @@ public final class Checks {
             if (quantity % 100 != 0) {
                 return false;
             }
-            if (quantitys.length() > 12) {
+            if (quantity > 9999999999999L) {
                 return false;
             }
             return true;

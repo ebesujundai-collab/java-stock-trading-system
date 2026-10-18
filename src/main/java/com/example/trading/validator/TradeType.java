@@ -12,7 +12,7 @@ public enum TradeType {
         if ("S".equals(input)) {
             return S;
         }
-        IllegalArgumentException error = new IllegalArgumentException("売買区分はBUY、SELLを入力");
+        IllegalArgumentException error = new IllegalArgumentException("売買区分はB、Sを入力");
 
         throw error;
     }
