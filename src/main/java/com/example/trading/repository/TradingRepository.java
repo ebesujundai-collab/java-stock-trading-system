@@ -41,10 +41,7 @@ public class TradingRepository {
             return tradings;
         }
 
-        List<String> lines = Files.readAllLines(
-                filePath,
-                StandardCharsets.UTF_8
-        );
+        List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
 
         for (String line : lines) {
 
@@ -57,13 +54,11 @@ public class TradingRepository {
 
             String[] data = line.split(",");
 
-            LocalDateTime tradeDateTime =
-                    LocalDateTime.parse(data[0], FORMAT);
+            LocalDateTime tradeDateTime = LocalDateTime.parse(data[0], FORMAT);
 
             String stockCode = data[1];
 
-            TradeType tradeType =
-                    TradeType.valueOf(data[2]);
+            TradeType tradeType = TradeType.valueOf(data[2]);
 
             String quantity = data[3];
 

@@ -23,11 +23,9 @@ public class Mnemonic {
         String inputPrice;
         TradingRepository repository = new TradingRepository(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
         //ここからwhileまでStep3
-        TradingHistory historyService =
-                new TradingHistory(repository);
+        TradingHistory historyService = new TradingHistory(repository);
+        TradeHistoryTablePrinter printer = new TradeHistoryTablePrinter(new PrintWriter(System.out));
 
-        TradeHistoryTablePrinter printer =
-                new TradeHistoryTablePrinter(new PrintWriter(System.out));
         while(true){
             System.out.println(
                     "メニューを選択してください" + "A" + "B" + "C" + "入力してください"
@@ -105,8 +103,7 @@ public class Mnemonic {
                     System.out.println("all / today / yesterday を入力");
 
                     try {
-                        historyType =
-                                HistoryType.fromInput(scanner.nextLine());
+                        historyType = HistoryType.fromInput(scanner.nextLine());
                         break;
 
                     } catch (IllegalArgumentException e) {

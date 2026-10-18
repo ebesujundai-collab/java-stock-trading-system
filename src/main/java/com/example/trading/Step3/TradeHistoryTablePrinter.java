@@ -4,6 +4,7 @@ package com.example.trading.Step3;
 
 import com.example.trading.validator.Trading;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -27,33 +28,32 @@ public class TradeHistoryTablePrinter {
         }
 
         output.println(
-                "+------------------+-----------+------+--------------+-----------+"
+                "+------------------+-----------+------+--------------+-----------+---------------+"
         );
 
         output.println(
-                "| tradeDateTime    | stockCode | side | quantity     | price     |"
+                "| tradeDateTime    | stockCode | side | quantity     | price     | amount        |"
         );
 
         output.println(
-                "+------------------+-----------+------+--------------+-----------+"
+                "+------------------+-----------+------+--------------+-----------+---------------+"
         );
 
         for (Trading trading : tradings) {
 
-            String dateTime =
-                    trading.getTradeDateTime().format(FORMAT);
+            String dateTime = trading.getTradeDateTime().format(FORMAT);
 
-            String stockCode =
-                    trading.getStockCode();
+            String stockCode = trading.getStockCode();
 
-            String side =
-                    trading.getTradeType().toString();
+            String side = trading.getTradeType().toString();
 
-            String quantity =
-                    trading.getQuantity();
+            String quantity = trading.getQuantity();
 
-            String price =
-                    trading.getPrice();
+            String price = trading.getPrice();
+
+            BigDecimal amount = new BigDecimal(quantity).multiply(new BigDecimal(price));
+
+            String amountText = amount.toPlainString();
 
             output.println(
                     "| " + padRight(dateTime, 16)
@@ -61,13 +61,12 @@ public class TradeHistoryTablePrinter {
                             + " | " + padRight(side, 4)
                             + " | " + padRight(quantity, 12)
                             + " | " + padRight(price, 9)
+                            + " | " + padRight(amountText, 13)
                             + " |"
             );
         }
 
-        output.println(
-                "+------------------+-----------+------+--------------+-----------+"
-        );
+        output.println("+------------------+-----------+------+--------------+-----------+---------------+");
 
         output.flush();
     }
