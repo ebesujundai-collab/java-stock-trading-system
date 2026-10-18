@@ -28,7 +28,7 @@ public final class Checks {
                             return false;
                         }
                     }
-                        return false;
+                        return true;
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.trading.validator;
 
+import com.example.trading.repository.Trading;
 import com.example.trading.repository.TradingRepository;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class Mnemonic {
         String inputSymbol;
         String inputQuantity;
         String inputPrice;
-        TradingRepository repository = new TradingRepository(Path.of(""));
+        TradingRepository repository = new TradingRepository(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
         while(true){
             System.out.println(
                     "メニューを選択してください" + "A" + "B" + "C" + "入力してください"
@@ -29,7 +30,7 @@ public class Mnemonic {
                     System.out.println("日時を入力");
                     String inputHour = scanner.nextLine();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime datetime = LocalDateTime.parse(inputHour,formatter);
+                    dateTime = LocalDateTime.parse(inputHour,formatter);
                     if (Checks.isValidHour(dateTime)) {
                         break;}
                     System.out.println("妥当な値を入力"); }
