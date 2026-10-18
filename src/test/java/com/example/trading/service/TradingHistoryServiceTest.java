@@ -1,10 +1,8 @@
 package com.example.trading.service;
 
-import com.example.trading.ui.HistoryPeriod;
-import com.example.trading.repository.Trade;
-import com.example.trading.ui.TradeHistoryService;
+import com.example.trading.repository.Trading;
 import com.example.trading.validator.TradeType;
-import com.example.trading.repository.TradeHistoryRepository;
+import com.example.trading.repository.TradingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -22,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TradeHistoryServiceTest {
+class TradingHistoryServiceTest {
 
     private static final String HEADER =
             "tradeDateTime,stockCode,side,quantity";
@@ -31,15 +29,15 @@ class TradeHistoryServiceTest {
     Path directory;
 
     private Path file;
-    private TradeHistoryRepository repository;
+    private TradingRepository repository;
     private TradeHistoryService service;
 
     @BeforeEach
     void setUp() throws IOException {
-        file = directory.resolve("trade_history.csv");
+        file = directory.resolve("trading.csv");
         Files.writeString(file, HEADER + "\n");
 
-        repository = new TradeHistoryRepository(file);
+        repository = new TradingRepository(file);
 
         Clock clock = Clock.fixed(
                 Instant.parse("2026-10-07T01:00:00Z"),
@@ -56,7 +54,7 @@ class TradeHistoryServiceTest {
         append("2026-10-05T15:00:00", "3333");
         append("2026-10-07T15:00:00", "4444");
 
-        List<Trade> result =
+        List<Trading> result =
                 service.findByPeriod(HistoryPeriod.ALL);
 
         assertEquals(
@@ -72,7 +70,7 @@ class TradeHistoryServiceTest {
         append("2026-10-07T23:59:59", "3333");
         append("2026-10-08T00:00:00", "4444");
 
-        List<Trade> result =
+        List<Trading> result =
                 service.findByPeriod(HistoryPeriod.TODAY);
 
         assertEquals(
@@ -88,7 +86,7 @@ class TradeHistoryServiceTest {
         append("2026-10-06T23:59:59", "3333");
         append("2026-10-07T00:00:00", "4444");
 
-        List<Trade> result =
+        List<Trading> result =
                 service.findByPeriod(HistoryPeriod.YESTERDAY);
 
         assertEquals(
@@ -102,7 +100,7 @@ class TradeHistoryServiceTest {
         append("2026-10-07T09:00:00", "1111");
         append("2026-10-07T09:00:00", "2222");
 
-        List<Trade> result =
+        List<Trading> result =
                 service.findByPeriod(HistoryPeriod.ALL);
 
         assertEquals(
@@ -124,7 +122,7 @@ class TradeHistoryServiceTest {
             throws IOException {
 
         repository.append(
-                new Trade(
+                new Trading(
                         LocalDateTime.parse(dateTime),
                         stockCode,
                         TradeType.BUY,
@@ -133,9 +131,9 @@ class TradeHistoryServiceTest {
         );
     }
 
-    private List<String> stockCodes(List<Trade> trades) {
-        return trades.stream()
-                .map(Trade::getStockCode)
+    private List<String> stockCodes(List<Trading> tradings) {
+        return tradings.stream()
+                .map(Trading::getStockCode)
                 .toList();
     }
 }

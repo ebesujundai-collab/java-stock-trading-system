@@ -6,14 +6,14 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 /** 1件の取引を表す。生成後に値を変更するメソッドは持たない。 */
-public final class Trade {
+public final class Trading {
 
     private final LocalDateTime tradeDateTime;
     private final String stockCode;
     private final TradeType tradeType;
     private final BigInteger quantity;
 
-    public Trade(
+    public Trading(
             LocalDateTime tradeDateTime,
             String stockCode,
             TradeType tradeType,

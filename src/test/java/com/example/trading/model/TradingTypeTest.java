@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class TradeTypeTest {
+class TradingTypeTest {
     @ParameterizedTest
     @CsvSource({"BUY, BUY", "SELL, SELL"})
     void acceptsOnlyDefinedTradeTypes(String input, TradeType expected) {

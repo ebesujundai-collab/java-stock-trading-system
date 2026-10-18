@@ -2,7 +2,7 @@ package com.example.trading.service;
 
 import com.example.trading.model.Trade;
 import com.example.trading.model.TradeType;
-import com.example.trading.repository.TradeHistoryRepository;
+import com.example.trading.repository.TradingRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,7 +31,7 @@ class TradingServiceTest {
     @Test
     void savesSuccessfulTradeUsingJapaneseTimeAndSecondPrecision() throws IOException {
         Path csv = temporaryDirectory.resolve("history.csv");
-        TradeHistoryRepository repository = new TradeHistoryRepository(csv);
+        TradingRepository repository = new TradingRepository(csv);
         // UTCでは00時でも、日本時間では09時なので成立する。
         Clock clock = Clock.fixed(Instant.parse("2026-10-07T00:15:32.123456789Z"), ZoneOffset.UTC);
         TradingService service = new TradingService(repository, new TradingHoursService(), clock);
@@ -60,7 +60,7 @@ class TradingServiceTest {
 
         assertEquals(TradeType.SELL, trade.getTradeType());
         assertEquals(new BigInteger(hugeQuantity), trade.getQuantity());
-        assertEquals(1, new TradeHistoryRepository(csv).findAll().size());
+        assertEquals(1, new TradingRepository(csv).findAll().size());
     }
 
     @ParameterizedTest
@@ -108,7 +108,7 @@ class TradingServiceTest {
         Path csv = temporaryDirectory.resolve("history.csv");
         Trade trade = serviceAt(csv, japaneseDateTime).execute("130A", "BUY", "1");
         assertEquals(LocalDateTime.parse(japaneseDateTime), trade.getTradeDateTime());
-        assertEquals(1, new TradeHistoryRepository(csv).findAll().size());
+        assertEquals(1, new TradingRepository(csv).findAll().size());
     }
 
     @Test
@@ -124,7 +124,7 @@ class TradingServiceTest {
         Path csv = temporaryDirectory.resolve("history.csv");
         CountingClock clock = new CountingClock(Instant.parse("2026-10-07T02:30:00Z"));
         TradingService service = new TradingService(
-                new TradeHistoryRepository(csv), new TradingHoursService(), clock);
+                new TradingRepository(csv), new TradingHoursService(), clock);
 
         Trade trade = service.execute("7203", TradeType.BUY, BigInteger.ONE);
 
@@ -136,7 +136,7 @@ class TradingServiceTest {
         Instant instant = LocalDateTime.parse(japaneseDateTime)
                 .atZone(TradingHoursService.JAPAN_ZONE).toInstant();
         Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
-        return new TradingService(new TradeHistoryRepository(csv), new TradingHoursService(), clock);
+        return new TradingService(new TradingRepository(csv), new TradingHoursService(), clock);
     }
 
     /** 読み取るたびに1秒進む時計で、境界時刻の二重取得を検出する。 */

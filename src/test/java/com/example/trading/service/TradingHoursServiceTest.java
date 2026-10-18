@@ -1,6 +1,5 @@
 package com.example.trading.service;
 
-import com.example.trading.validator.TradingHoursService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

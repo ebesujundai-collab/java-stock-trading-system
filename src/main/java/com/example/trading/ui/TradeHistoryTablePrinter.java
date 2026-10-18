@@ -1,6 +1,6 @@
 package com.example.trading.ui;
 
-import com.example.trading.repository.Trade;
+import com.example.trading.repository.Trading;
 
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
@@ -17,9 +17,9 @@ public class TradeHistoryTablePrinter {
         this.output = output;
     }
 
-    public void print(List<Trade> trades) {
+    public void print(List<Trading> tradings) {
 
-        if (trades.isEmpty()) {
+        if (tradings.isEmpty()) {
             output.println("該当する取引履歴はありません。");
             return;
         }
@@ -27,19 +27,19 @@ public class TradeHistoryTablePrinter {
         output.println("+---------------------+-----------+------+----------+");
         output.println("| tradeDateTime       | stockCode | side | quantity |");
 
-        for (Trade trade : trades) {
+        for (Trading trading : tradings) {
 
             String dateTime =
-                    trade.getTradeDateTime().format(FORMAT);
+                    trading.getTradeDateTime().format(FORMAT);
 
             String stockCode =
-                    trade.getStockCode();
+                    trading.getStockCode();
 
             String side =
-                    trade.getTradeType().toString();
+                    trading.getTradeType().toString();
 
             String quantity =
-                    trade.getQuantity().toString();
+                    trading.getQuantity().toString();
 
             output.println(
                     "| " + padRight(dateTime, 19)

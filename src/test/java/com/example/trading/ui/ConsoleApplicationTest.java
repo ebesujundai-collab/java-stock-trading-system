@@ -2,7 +2,7 @@ package com.example.trading.ui;
 
 import com.example.trading.model.Trade;
 import com.example.trading.model.TradeType;
-import com.example.trading.repository.TradeHistoryRepository;
+import com.example.trading.repository.TradingRepository;
 import com.example.trading.service.TradeHistoryService;
 import com.example.trading.service.TradingHoursService;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class ConsoleApplicationTest {
     @Test
     void invalidMenuAndTradeFieldsCanBeCorrectedWithoutRestartingTheTrade() throws IOException {
         Path csv = temporaryDirectory.resolve("trades.csv");
-        TradeHistoryRepository repository = new TradeHistoryRepository(csv);
+        TradingRepository repository = new TradingRepository(csv);
         String input = String.join("\n", "unknown", "1", "1B00", "130a", "7203",
                 "buy", "HOLD", "BUY", "abc", "0", "-1", "1.5", "100", "0") + "\n";
 
@@ -57,7 +57,7 @@ class ConsoleApplicationTest {
 
     @Test
     void sellCanBeSavedWithoutCheckingHoldings() throws IOException {
-        TradeHistoryRepository repository = repository();
+        TradingRepository repository = repository();
 
         String output = runApplication("1\n130A\nSELL\n25\n0\n", repository, OPEN_CLOCK);
 
@@ -69,7 +69,7 @@ class ConsoleApplicationTest {
     @Test
     void successfulTradesCanBeViewedAndReloadedAfterRestart() throws IOException {
         Path csv = temporaryDirectory.resolve("trades.csv");
-        TradeHistoryRepository repository = new TradeHistoryRepository(csv);
+        TradingRepository repository = new TradingRepository(csv);
 
         String firstRun = runApplication(
                 "1\n7203\nBUY\n100\n1\n130A\nSELL\n25\n2\nall\n0\n",
@@ -84,7 +84,7 @@ class ConsoleApplicationTest {
 
         // 新しいアプリとrepositoryを作り、メモリーではなく保存ファイルから復元する。
         String secondRun = runApplication("2\ntoday\n2\nyesterday\n0\n",
-                new TradeHistoryRepository(csv), OPEN_CLOCK);
+                new TradingRepository(csv), OPEN_CLOCK);
 
         assertTrue(secondRun.contains("7203"));
         assertTrue(secondRun.contains("130A"));
@@ -95,7 +95,7 @@ class ConsoleApplicationTest {
 
     @Test
     void allHistoryRetriesInvalidPeriodAndDisplaysNewestFirst() throws IOException {
-        TradeHistoryRepository repository = repositoryWithHistory();
+        TradingRepository repository = repositoryWithHistory();
 
         String output = runApplication("2\nALL\nlastweek\nall\n0\n", repository, OPEN_CLOCK);
 
@@ -129,7 +129,7 @@ class ConsoleApplicationTest {
     void missingHistoryShowsEmptyMessageWithoutCreatingCsv() {
         Path csv = temporaryDirectory.resolve("trades.csv");
 
-        String output = runApplication("2\nall\n0\n", new TradeHistoryRepository(csv), OPEN_CLOCK);
+        String output = runApplication("2\nall\n0\n", new TradingRepository(csv), OPEN_CLOCK);
 
         assertTrue(output.contains("該当する取引履歴はありません。"));
         assertFalse(Files.exists(csv));
@@ -142,7 +142,7 @@ class ConsoleApplicationTest {
         Clock closedClock = Clock.fixed(Instant.parse(instant), ZoneOffset.UTC);
 
         String output = runApplication("1\n7203\nBUY\n100\n2\nall\n0\n",
-                new TradeHistoryRepository(csv), closedClock);
+                new TradingRepository(csv), closedClock);
 
         assertTrue(output.contains("取引できません:"));
         assertTrue(output.contains("該当する取引履歴はありません。"));
@@ -157,7 +157,7 @@ class ConsoleApplicationTest {
     void endOfInputAtAnyPromptExitsWithoutSavingPartialTrade(String input) {
         Path csv = temporaryDirectory.resolve("trades.csv");
 
-        String output = runApplication(input, new TradeHistoryRepository(csv), OPEN_CLOCK);
+        String output = runApplication(input, new TradingRepository(csv), OPEN_CLOCK);
 
         assertTrue(output.contains("終了します。"));
         assertFalse(output.contains("取引が成立しました。"));
@@ -169,7 +169,7 @@ class ConsoleApplicationTest {
         Path directoryInsteadOfCsv = Files.createDirectory(temporaryDirectory.resolve("trades.csv"));
 
         String output = runApplication("1\n7203\nBUY\n100\n2\nall\n0\n",
-                new TradeHistoryRepository(directoryInsteadOfCsv), OPEN_CLOCK);
+                new TradingRepository(directoryInsteadOfCsv), OPEN_CLOCK);
 
         assertTrue(output.contains("取引を保存できませんでした:"));
         assertTrue(output.contains("履歴を読み込めませんでした:"));
@@ -184,7 +184,7 @@ class ConsoleApplicationTest {
         String invalidCsv = "invalid header\n";
         Files.writeString(csv, invalidCsv);
 
-        String output = runApplication("2\nall\n0\n", new TradeHistoryRepository(csv), OPEN_CLOCK);
+        String output = runApplication("2\nall\n0\n", new TradingRepository(csv), OPEN_CLOCK);
 
         assertTrue(output.contains("履歴を読み込めませんでした:"));
         assertTrue(output.contains("終了します。"));
@@ -206,12 +206,12 @@ class ConsoleApplicationTest {
         assertTrue(output.contains("終了します。"));
     }
 
-    private TradeHistoryRepository repository() {
-        return new TradeHistoryRepository(temporaryDirectory.resolve("trades.csv"));
+    private TradingRepository repository() {
+        return new TradingRepository(temporaryDirectory.resolve("trades.csv"));
     }
 
-    private TradeHistoryRepository repositoryWithHistory() throws IOException {
-        TradeHistoryRepository repository = repository();
+    private TradingRepository repositoryWithHistory() throws IOException {
+        TradingRepository repository = repository();
         repository.append(trade("2026-10-05T10:00:00", "9A76"));
         repository.append(trade("2026-10-07T09:15:00", "7203"));
         repository.append(trade("2026-10-06T15:00:00", "130A"));
@@ -222,11 +222,11 @@ class ConsoleApplicationTest {
         return new Trade(LocalDateTime.parse(dateTime), stockCode, TradeType.BUY, BigInteger.ONE);
     }
 
-    private String runApplication(String input, TradeHistoryRepository repository, Clock clock) {
+    private String runApplication(String input, TradingRepository repository, Clock clock) {
         return runApplication(new BufferedReader(new StringReader(input)), repository, clock);
     }
 
-    private String runApplication(BufferedReader input, TradeHistoryRepository repository, Clock clock) {
+    private String runApplication(BufferedReader input, TradingRepository repository, Clock clock) {
         StringWriter result = new StringWriter();
         PrintWriter output = new PrintWriter(result, true);
         TradingService tradingService = new TradingService(repository, new TradingHoursService(), clock);

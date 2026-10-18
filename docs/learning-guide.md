@@ -39,17 +39,17 @@ Mavenは`src/main/java`をアプリのコード、`src/test/java`をテストと
 
 `ConsoleApplication.run()`がメニューを表示します。取引を選ぶと銘柄コード、売買区分、株数を順に読み、不正な項目だけ再入力させます。その後`TradingService.execute()`が同じvalidatorを使って再検証します。これは将来コンソール以外から呼ぶ場合も条件を守るためです。
 
-サービスは時計を一度読み、`LocalDateTime.ofInstant(clock.instant(), JAPAN_ZONE)`で日本時間にします。`TradingHoursService`が`LocalDate`と`DayOfWeek`で土日を確認し、`LocalTime`で取引時間を確認します。すべての条件を満たした場合だけ`Trade`を作って保存します。
+サービスは時計を一度読み、`LocalDateTime.ofInstant(clock.instant(), JAPAN_ZONE)`で日本時間にします。`TradingHoursService`が`LocalDate`と`DayOfWeek`で土日を確認し、`LocalTime`で取引時間を確認します。すべての条件を満たした場合だけ`Trading`を作って保存します。
 
 ## 4. CSVへの保存
 
-`TradingService`は`repository.append(trade)`を呼びます。リポジトリは既存CSVが正常か確認し、新規または空ファイルならヘッダーを書き、その後に4項目の取引行を追記します。`Path`は保存先、`Files.writeString`はファイルへの書き込みを表します。
+`TradingService`は`repository.append(trading)`を呼びます。リポジトリは既存CSVが正常か確認し、新規または空ファイルならヘッダーを書き、その後に4項目の取引行を追記します。`Path`は保存先、`Files.writeString`はファイルへの書き込みを表します。
 
 保存に成功してサービスから戻った後に、コンソールが成立を表示します。書き込みに失敗すると`IOException`がUIまで伝わり、成立とは表示せず理由を案内します。
 
 ## 5. CSVの読み込みと期間の抽出
 
-`findAll()`はUTF-8のCSVを1行ずつ読みます。ヘッダー、列数、日時、コード、売買区分、株数を検証し、各行を`Trade`に変換して`ArrayList`へ追加します。不正な行は行番号付きのエラーになり、勝手に削除しません。
+`findAll()`はUTF-8のCSVを1行ずつ読みます。ヘッダー、列数、日時、コード、売買区分、株数を検証し、各行を`Trading`に変換して`ArrayList`へ追加します。不正な行は行番号付きのエラーになり、勝手に削除しません。
 
 `TradeHistoryService.findByPeriod()`は日本時間の今日を`LocalDate.now(clock.withZone(JAPAN_ZONE))`で取得します。ALLは全件、TODAYは取引日が今日に等しいもの、YESTERDAYは`today.minusDays(1)`に等しいものを新しいListへ入れます。日付を扱うので月末・年末もJava標準APIが処理します。
 
@@ -76,8 +76,8 @@ serviceは「いつ取引できるか」「どの履歴を表示するか」と�
 ## 10. 初心者として押さえるコード
 
 - `class`はデータや処理の定義、objectは`new`で作った実体です。constructorで必要な相手を渡し、methodを呼んで処理を進めます。
-- `private`はクラス内部だけで使うもの、`public`は他クラスから使う入口です。`Trade`の`private final`フィールドとgetterは、生成後の取引データを変更させずに読み出すための構成です。
-- `static`はオブジェクトを作らずに呼べる処理や共有定数を表します。取引情報を持つ`Trade`と、状態を持たないvalidatorの違いを確認してください。
+- `private`はクラス内部だけで使うもの、`public`は他クラスから使う入口です。`Trading`の`private final`フィールドとgetterは、生成後の取引データを変更させずに読み出すための構成です。
+- `static`はオブジェクトを作らずに呼べる処理や共有定数を表します。取引情報を持つ`Trading`と、状態を持たないvalidatorの違いを確認してください。
 - `LocalDate`は日付、`LocalTime`は時刻、`LocalDateTime`は日付と時刻です。それ自体にタイムゾーンはないため、時計の瞬間を`ZoneId.of("Asia/Tokyo")`で変換します。
 - `Clock`をコンストラクタで渡すと、実行時は現在の時計、テストでは`Clock.fixed`を使えます。テストは実際の曜日・時刻に依存しません。
 - 株数には`BigInteger`を使い、仕様にない`int`の上限を設けていません。`signum()`で正の値か確認します。

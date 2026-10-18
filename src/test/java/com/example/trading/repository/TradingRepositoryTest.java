@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TradeHistoryRepositoryTest {
+class TradingRepositoryTest {
 
     private static final String HEADER =
             "tradeDateTime,stockCode,side,quantity";
@@ -25,12 +25,12 @@ class TradeHistoryRepositoryTest {
     Path directory;
 
     private Path file;
-    private TradeHistoryRepository repository;
+    private TradingRepository repository;
 
     @BeforeEach
     void setUp() {
-        file = directory.resolve("trade_history.csv");
-        repository = new TradeHistoryRepository(file);
+        file = directory.resolve("trading.csv");
+        repository = new TradingRepository(file);
     }
 
     @Test
@@ -41,14 +41,14 @@ class TradeHistoryRepositoryTest {
 
     @Test
     void appendCreatesFileAndWritesTrade() throws IOException {
-        Trade trade = trade(
+        Trading trading = trade(
                 "2026-10-07T09:15:32",
                 "7203",
                 TradeType.BUY,
                 "100"
         );
 
-        repository.append(trade);
+        repository.append(trading);
 
         assertTrue(Files.exists(file));
         assertEquals(
@@ -86,18 +86,18 @@ class TradeHistoryRepositoryTest {
                         + "2026-10-07 10:25:18,130A,SELL,25\n"
         );
 
-        List<Trade> trades = repository.findAll();
+        List<Trading> tradings = repository.findAll();
 
-        assertEquals(2, trades.size());
+        assertEquals(2, tradings.size());
 
-        Trade first = trades.get(0);
+        Trading first = tradings.get(0);
         assertEquals(LocalDateTime.of(2026, 10, 7, 9, 15, 32),
                 first.getTradeDateTime());
         assertEquals("7203", first.getStockCode());
         assertEquals(TradeType.BUY, first.getTradeType());
         assertEquals(BigInteger.valueOf(100), first.getQuantity());
 
-        Trade second = trades.get(1);
+        Trading second = tradings.get(1);
         assertEquals("130A", second.getStockCode());
         assertEquals(TradeType.SELL, second.getTradeType());
         assertEquals(BigInteger.valueOf(25), second.getQuantity());
@@ -121,10 +121,10 @@ class TradeHistoryRepositoryTest {
                 "20"
         ));
 
-        List<Trade> trades = repository.findAll();
+        List<Trading> tradings = repository.findAll();
 
-        assertEquals("1111", trades.get(0).getStockCode());
-        assertEquals("2222", trades.get(1).getStockCode());
+        assertEquals("1111", tradings.get(0).getStockCode());
+        assertEquals("2222", tradings.get(1).getStockCode());
     }
 
     @Test
@@ -134,13 +134,13 @@ class TradeHistoryRepositoryTest {
         assertTrue(repository.findAll().isEmpty());
     }
 
-    private Trade trade(
+    private Trading trade(
             String dateTime,
             String stockCode,
             TradeType tradeType,
             String quantity
     ) {
-        return new Trade(
+        return new Trading(
                 LocalDateTime.parse(dateTime),
                 stockCode,
                 tradeType,

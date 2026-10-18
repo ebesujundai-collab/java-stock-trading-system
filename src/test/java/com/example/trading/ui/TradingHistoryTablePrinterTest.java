@@ -1,6 +1,6 @@
 package com.example.trading.ui;
 
-import com.example.trading.repository.Trade;
+import com.example.trading.repository.Trading;
 import com.example.trading.validator.TradeType;
 import org.junit.jupiter.api.Test;
 
@@ -14,18 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TradeHistoryTablePrinterTest {
+class TradingHistoryTablePrinterTest {
 
     @Test
     void printsHeaderAndTradeRowsInGivenOrder() {
-        Trade first = trade(
+        Trading first = trade(
                 "2026-10-07T15:20:14",
                 "7203",
                 TradeType.BUY,
                 "100"
         );
 
-        Trade second = trade(
+        Trading second = trade(
                 "2026-10-07T14:31:42",
                 "130A",
                 TradeType.SELL,
@@ -63,7 +63,7 @@ class TradeHistoryTablePrinterTest {
 
     @Test
     void normalRowsHaveSameLengthAsHeader() {
-        Trade trade = trade(
+        Trading trading = trade(
                 "2026-10-07T09:00:00",
                 "9A7A",
                 TradeType.SELL,
@@ -71,7 +71,7 @@ class TradeHistoryTablePrinterTest {
         );
 
         List<String> lines =
-                print(List.of(trade)).lines().toList();
+                print(List.of(trading)).lines().toList();
 
         assertEquals(lines.get(1).length(), lines.get(2).length());
     }
@@ -95,13 +95,13 @@ class TradeHistoryTablePrinterTest {
         assertTrue(output.contains(quantity));
     }
 
-    private Trade trade(
+    private Trading trade(
             String dateTime,
             String stockCode,
             TradeType side,
             String quantity
     ) {
-        return new Trade(
+        return new Trading(
                 LocalDateTime.parse(dateTime),
                 stockCode,
                 side,
@@ -109,7 +109,7 @@ class TradeHistoryTablePrinterTest {
         );
     }
 
-    private String print(List<Trade> trades) {
+    private String print(List<Trading> tradings) {
         StringWriter result = new StringWriter();
 
         TradeHistoryTablePrinter printer =
@@ -117,7 +117,7 @@ class TradeHistoryTablePrinterTest {
                         new PrintWriter(result, true)
                 );
 
-        printer.print(trades);
+        printer.print(tradings);
 
         return result.toString();
     }
