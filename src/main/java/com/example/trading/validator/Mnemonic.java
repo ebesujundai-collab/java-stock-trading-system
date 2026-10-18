@@ -14,6 +14,7 @@ public class Mnemonic {
         String inputHour;
         LocalDateTime dateTime;
         String inputSymbol;
+        TradeType tradeType;
         String inputQuantity;
         String inputPrice;
         TradingRepository repository = new TradingRepository(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
@@ -44,9 +45,16 @@ public class Mnemonic {
                         System.out.println("妥当な値を入力"); }
 
 
+                while (true) {
                     System.out.println("売買区分(B/S)");
-                    TradeType tradeType = TradeType.fromInput(scanner.nextLine());
 
+                    try {
+                        tradeType = TradeType.fromInput(scanner.nextLine());
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("妥当な値を入力");
+                    }
+                }
 
                     while (true) {
                         System.out.println("数量");
