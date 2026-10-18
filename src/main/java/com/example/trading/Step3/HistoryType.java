@@ -1,6 +1,6 @@
 //ここからStep3
 
-package com.example.trading.validator;
+package com.example.trading.Step3;
 
 public enum HistoryType {
     ALL,
@@ -9,7 +9,7 @@ public enum HistoryType {
 
     public static HistoryType fromInput(String input) {
 
-        if ("all".equals(input)) {
+        if ("all".equals(input) || "".equals(input)) {
             return ALL;
         }
 

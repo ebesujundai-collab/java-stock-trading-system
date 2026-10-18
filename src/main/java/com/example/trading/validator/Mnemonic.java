@@ -1,9 +1,9 @@
 package com.example.trading.validator;
 
-import com.example.trading.repository.Trading;
-import com.example.trading.repository.TradingHistory;
+import com.example.trading.Step3.TradingHistory;
 import com.example.trading.repository.TradingRepository;
-import com.example.trading.ui.TradeHistoryTablePrinter;
+import com.example.trading.Step3.HistoryType;
+import com.example.trading.Step3.TradeHistoryTablePrinter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;

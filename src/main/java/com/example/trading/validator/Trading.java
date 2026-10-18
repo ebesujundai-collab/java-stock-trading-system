@@ -1,6 +1,5 @@
-package com.example.trading.repository;
+package com.example.trading.validator;
 
-import com.example.trading.validator.TradeType;
 import java.time.LocalDateTime;
 
 /** 1件の取引を表す。生成後に値を変更するメソッドは持たない。 */

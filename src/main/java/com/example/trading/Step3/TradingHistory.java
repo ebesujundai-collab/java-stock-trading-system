@@ -1,8 +1,10 @@
 //ここからStep3
 
-package com.example.trading.repository;
+package com.example.trading.Step3;
 
-import com.example.trading.validator.HistoryType;
+import com.example.trading.validator.Trading;
+import com.example.trading.repository.TradingRepository;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;

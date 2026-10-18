@@ -1,6 +1,7 @@
 package com.example.trading.repository;
 
 import com.example.trading.validator.TradeType;
+import com.example.trading.validator.Trading;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

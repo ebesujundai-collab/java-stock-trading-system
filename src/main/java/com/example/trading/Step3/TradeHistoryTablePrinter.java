@@ -1,8 +1,8 @@
 //ここからStep3
 
-package com.example.trading.ui;
+package com.example.trading.Step3;
 
-import com.example.trading.repository.Trading;
+import com.example.trading.validator.Trading;
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
