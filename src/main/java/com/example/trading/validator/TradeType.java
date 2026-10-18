@@ -6,10 +6,10 @@ public enum TradeType {
     S;
 
     public static TradeType fromInput(String input) {
-        if ("BUY".equals(input)) {
+        if ("B".equals(input)) {
             return B;
         }
-        if ("SELL".equals(input)) {
+        if ("S".equals(input)) {
             return S;
         }
         IllegalArgumentException error = new IllegalArgumentException("売買区分はBUY、SELLを入力");

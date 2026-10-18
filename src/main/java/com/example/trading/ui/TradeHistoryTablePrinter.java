@@ -10,7 +10,7 @@ public class TradeHistoryTablePrinter {
     private final PrintWriter output;
 
     private static final DateTimeFormatter FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public TradeHistoryTablePrinter(PrintWriter output) {
         this.output = output;

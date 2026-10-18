@@ -40,13 +40,17 @@ public final class Checks {
     public static boolean isValidHour(String inputHour) {
         try {
             DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             LocalDateTime date =
                     LocalDateTime.parse(inputHour, formatter);
 
             DayOfWeek day = date.getDayOfWeek();
             if (DayOfWeek.SATURDAY == day || DayOfWeek.SUNDAY == day) {
+                return false;
+            }
+            LocalDateTime now = LocalDateTime.now();
+            if (date.isAfter(now)) {
                 return false;
             }
             LocalTime time1 = date.toLocalTime();
@@ -58,10 +62,6 @@ public final class Checks {
             LocalTime time4 = LocalTime.of(12, 30);
             LocalTime time5 = LocalTime.of(15, 30);
             if (!time1.isBefore(time4) && !time1.isAfter(time5)) {
-                return true;
-            }
-            LocalTime time6 = LocalTime.now();
-            if (time1.isBefore(time6)) {
                 return true;
             }
             return false;

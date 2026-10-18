@@ -32,7 +32,7 @@ public class Mnemonic {
                     if (Checks.isValidHour(inputHour)) {
                         break;}
                     System.out.println("妥当な値を入力"); }
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 dateTime = LocalDateTime.parse(inputHour,formatter);
 
 

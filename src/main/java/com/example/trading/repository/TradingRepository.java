@@ -12,7 +12,7 @@ public class TradingRepository {
     private final Path filePath;
 
     private static final DateTimeFormatter FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public TradingRepository(Path filePath) {
         this.filePath = filePath;
@@ -21,7 +21,7 @@ public class TradingRepository {
     // CSVに保存
     public void append(Trading trading) throws IOException {
 
-        String row = trading.getTradeDateTime().format(FORMAT) + "," + trading.getStockCode() + "," + trading.getTradeType() + "," + trading.getQuantity() + "," + trading.getPrice() + "\n";
+        String row = "\n" + trading.getTradeDateTime().format(FORMAT) + "," + trading.getStockCode() + "," + trading.getTradeType() + "," + trading.getQuantity() + "," + trading.getPrice();
 
         Files.writeString(filePath, row, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
