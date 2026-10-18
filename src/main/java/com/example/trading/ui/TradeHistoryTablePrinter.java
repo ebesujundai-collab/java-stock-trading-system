@@ -1,7 +1,6 @@
 package com.example.trading.ui;
 
 import com.example.trading.repository.Trading;
-
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

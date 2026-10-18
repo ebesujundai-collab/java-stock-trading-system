@@ -2,7 +2,6 @@ package com.example.trading.validator;
 
 import com.example.trading.repository.Trading;
 import com.example.trading.repository.TradingRepository;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -12,6 +11,7 @@ import java.util.Scanner;
 public class Mnemonic {
     public void menu() {
         Scanner scanner = new Scanner(System.in);
+        String inputHour;
         LocalDateTime dateTime;
         String inputSymbol;
         String inputQuantity;
@@ -26,14 +26,14 @@ public class Mnemonic {
             if ("A".equals(menu)) {
                 System.out.println("約定された取引を開始");
 
-                try { while (true) {
+               while (true) {
                     System.out.println("日時を入力");
-                    String inputHour = scanner.nextLine();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    dateTime = LocalDateTime.parse(inputHour,formatter);
-                    if (Checks.isValidHour(dateTime)) {
+                    inputHour = scanner.nextLine();
+                    if (Checks.isValidHour(inputHour)) {
                         break;}
                     System.out.println("妥当な値を入力"); }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                dateTime = LocalDateTime.parse(inputHour,formatter);
 
 
                     while (true) {
@@ -63,7 +63,7 @@ public class Mnemonic {
                             break;}
                         System.out.println("妥当な値を入力"); }
 
-
+                try {
                     Trading trade =new Trading(
                         dateTime,
                         inputSymbol,
@@ -73,8 +73,6 @@ public class Mnemonic {
                     repository.append(trade);
                     System.out.println("取引の入力が完了した");
 
-                    } catch (IllegalArgumentException e) {
-                    System.out.println("取引できない");
                 } catch (IOException e) {
                     System.out.println("保存できません");
                 }
