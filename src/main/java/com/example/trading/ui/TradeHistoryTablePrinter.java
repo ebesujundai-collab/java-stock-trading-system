@@ -1,3 +1,5 @@
+//ここからStep3
+
 package com.example.trading.ui;
 
 import com.example.trading.repository.Trading;
@@ -20,11 +22,21 @@ public class TradeHistoryTablePrinter {
 
         if (tradings.isEmpty()) {
             output.println("該当する取引履歴はありません。");
+            output.flush();
             return;
         }
 
-        output.println("+---------------------+-----------+------+----------+");
-        output.println("| tradeDateTime       | stockCode | side | quantity |");
+        output.println(
+                "+------------------+-----------+------+--------------+-----------+"
+        );
+
+        output.println(
+                "| tradeDateTime    | stockCode | side | quantity     | price     |"
+        );
+
+        output.println(
+                "+------------------+-----------+------+--------------+-----------+"
+        );
 
         for (Trading trading : tradings) {
 
@@ -38,18 +50,26 @@ public class TradeHistoryTablePrinter {
                     trading.getTradeType().toString();
 
             String quantity =
-                    trading.getQuantity().toString();
+                    trading.getQuantity();
+
+            String price =
+                    trading.getPrice();
 
             output.println(
-                    "| " + padRight(dateTime, 19)
+                    "| " + padRight(dateTime, 16)
                             + " | " + padRight(stockCode, 9)
                             + " | " + padRight(side, 4)
-                            + " | " + padRight(quantity, 8)
+                            + " | " + padRight(quantity, 12)
+                            + " | " + padRight(price, 9)
                             + " |"
             );
         }
 
-        output.println("+---------------------+-----------+------+----------+");
+        output.println(
+                "+------------------+-----------+------+--------------+-----------+"
+        );
+
+        output.flush();
     }
 
     private String padRight(String text, int length) {
