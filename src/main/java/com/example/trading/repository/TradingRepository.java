@@ -51,6 +51,9 @@ public class TradingRepository {
             if (line.isBlank()) {
                 continue;
             }
+            if (line.startsWith("tradeDateTime")) {
+                continue;
+            }
 
             String[] data = line.split(",");
 
