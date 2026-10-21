@@ -3,7 +3,7 @@ package com.example.trading.validator;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/** 1件の取引を表す。生成後に値を変更するメソッドは持たない。 */
+
 public final class Trading {
 
     private final LocalDateTime tradeDateTime;

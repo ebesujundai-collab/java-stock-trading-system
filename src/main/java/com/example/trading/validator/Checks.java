@@ -5,10 +5,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
 public final class Checks {
 
     public static boolean isValidHour(LocalDateTime date) {
-
         DayOfWeek day = date.getDayOfWeek();
         if (DayOfWeek.SATURDAY == day || DayOfWeek.SUNDAY == day) {
             return false;
@@ -54,7 +54,6 @@ public final class Checks {
 
 
     public static boolean isValidPrice(BigDecimal price) {
-
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }
@@ -69,7 +68,6 @@ public final class Checks {
 
 
     public static boolean isValidQuantity(Long quantity) {
-
         if (quantity <= 0) {
             return false;
         }

@@ -1,11 +1,11 @@
 package com.example.trading.validator;
 
 import com.example.trading.repository.TradingWriter;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+
 
 public class  TradingHold {
     public void tradingHold() {
@@ -16,11 +16,6 @@ public class  TradingHold {
         Side side = result.validationSide();
         Long inputQuantity = result.validationQuantity();
         BigDecimal inputPrice = result.validationPrice();
-        //ここからwhileまでStep3
-//        HistoryType historyType;
-//        TradingHistory tradingHistory = new TradingHistory(repository);
-//        TradeHistoryTablePrinter printer = new TradeHistoryTablePrinter(new PrintWriter(System.out));
-
 
         try {
             Trading trade = new Trading(
