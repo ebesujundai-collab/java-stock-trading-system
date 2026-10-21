@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class  TradingHold {
     public void tradingHold() {
-        TradingWriter repository = new TradingWriter(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
+        TradingWriter tradingWriter = new TradingWriter(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
         Validater result = new Validater();
         LocalDateTime dateTime = result.validationDate();
         String inputSymbol = result.validationCode();
@@ -30,7 +30,7 @@ public class  TradingHold {
                     inputQuantity,
                     inputPrice
             );
-            repository.append(trade);
+            tradingWriter.append(trade);
             System.out.println("取引の入力が完了しました");
 
         } catch (IOException e) {

@@ -1,13 +1,11 @@
 package com.example.trading;
 
-import com.example.trading.validator.Trading;
 import com.example.trading.validator.TradingHold;
-import java.io.IOException;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
-    public static void main() {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("操作するメニューを選んでください\n" +

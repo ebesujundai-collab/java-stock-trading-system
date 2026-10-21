@@ -8,9 +8,9 @@ import java.time.format.ResolverStyle;
 import java.util.Scanner;
 
 public class Validater {
+    private final Scanner scanner = new Scanner(System.in);
 
     public LocalDateTime validationDate() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 System.out.println("日時を入力してください");
@@ -28,7 +28,6 @@ public class Validater {
     }
 
     public String validationCode() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("銘柄コード");
             String inputSymbol = scanner.nextLine();
@@ -40,7 +39,6 @@ public class Validater {
     }
 
     public Side validationSide() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("売買区分B/S");
             String input = scanner.nextLine();
@@ -54,7 +52,6 @@ public class Validater {
     }
 
     public Long validationQuantity() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 System.out.println("数量");
@@ -71,7 +68,6 @@ public class Validater {
     }
 
     public BigDecimal validationPrice() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 System.out.println("単価");
@@ -81,7 +77,7 @@ public class Validater {
                     return price;
                 }
                 System.out.println("正しい単価を入力してください");
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("不正な入力です");
             }
         }
