@@ -63,7 +63,7 @@ result.sort(Comparator.comparing(Trade::getTradeDateTime).reversed());
 
 ## 7. enumを使う理由
 
-`TradeType`と`HistoryPeriod`は、選択肢を決まった値に限定します。単なる文字列を処理のあちこちで比較するより、間違いに気付きやすくなります。文字列からenumへの変換は`fromInput()`に集め、許可されない値はそこで拒否します。`switch`で期間ごとの処理を読みやすく分けられます。
+`Side`と`HistoryPeriod`は、選択肢を決まった値に限定します。単なる文字列を処理のあちこちで比較するより、間違いに気付きやすくなります。文字列からenumへの変換は`fromInput()`に集め、許可されない値はそこで拒否します。`switch`で期間ごとの処理を読みやすく分けられます。
 
 ## 8. バリデーションを分ける理由
 
