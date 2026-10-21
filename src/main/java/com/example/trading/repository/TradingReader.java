@@ -31,39 +31,36 @@ import java.util.List;
             if (!Files.exists(filePath)) {
                 return tradings;
             }
+            try {
 
-            List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
+                List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
+                for (String line : lines) {
 
-            for (String line : lines) {
+                    if (line.isBlank()) {
+                        continue;
+                    }
+                    if (line.startsWith("tradeDateTime")) {
+                        continue;
+                    }
+                    String[] data = line.split(",");
 
-                if (line.isBlank()) {
-                    continue;
+                    LocalDateTime tradeDateTime = LocalDateTime.parse(data[0], FORMAT);
+                    String stockCode = data[1];
+                    Side side = Side.valueOf(data[2]);
+                    Long quantity = Long.parseLong(data[3]);
+                    BigDecimal price = new BigDecimal(data[4]);
+
+                    Trading trading = new Trading(
+                            tradeDateTime,
+                            stockCode,
+                            side,
+                            quantity,
+                            price
+                    );
+                    tradings.add(trading);
                 }
-
-                if (line.startsWith("tradeDateTime")) {
-                    continue;
-                }
-
-                String[] data = line.split(",");
-
-                LocalDateTime tradeDateTime = LocalDateTime.parse(data[0], FORMAT);
-
-                String stockCode = data[1];
-
-                Side side = Side.valueOf(data[2]);
-
-                Long quantity = Long.parseLong(data[3]);
-
-                BigDecimal price = new BigDecimal(data[4]);
-
-                Trading trading = new Trading(
-                                tradeDateTime,
-                                stockCode,
-                                side,
-                                quantity,
-                                price
-                        );
-                tradings.add(trading);
+        } catch (IOException e) {
+                return tradings;
             }
             return tradings;
         }

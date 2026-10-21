@@ -2,7 +2,6 @@ package com.example.trading.Step3;
 
 import com.example.trading.repository.TradingReader;
 import com.example.trading.validator.Trading;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.List;
@@ -35,7 +34,6 @@ public class TradingHistoryHold {
                     System.out.println("該当する取引はありません");
                     continue;
                 }
-
                 printer.print(tradings);
                 break;
             }

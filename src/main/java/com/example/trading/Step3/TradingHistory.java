@@ -2,7 +2,6 @@ package com.example.trading.Step3;
 
 import com.example.trading.repository.TradingReader;
 import com.example.trading.validator.Trading;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
