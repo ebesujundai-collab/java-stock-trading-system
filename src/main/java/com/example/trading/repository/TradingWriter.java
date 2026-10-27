@@ -14,7 +14,7 @@ public class TradingWriter {
     private final Path filePath;
 
     private static final DateTimeFormatter FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
 
     public TradingWriter(Path filePath) {
         this.filePath = filePath;

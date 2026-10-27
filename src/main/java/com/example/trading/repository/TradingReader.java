@@ -16,32 +16,17 @@ import java.util.List;
     public class TradingReader {
 
         private final Path filePath;
-
-        private static final DateTimeFormatter FORMAT =
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
+        private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
         public TradingReader(Path filePath) {
             this.filePath = filePath;
         }
-
         public List<Trading> findAll() {
-
             List<Trading> tradings = new ArrayList<>();
-
-            if (!Files.exists(filePath)) {
-                return tradings;
-            }
             try {
-
                 List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
-                for (String line : lines) {
+                List<String> linen = lines.subList(1, lines.size());
+                for (String line : linen) {
 
-                    if (line.isBlank()) {
-                        continue;
-                    }
-                    if (line.startsWith("tradeDateTime")) {
-                        continue;
-                    }
                     String[] data = line.split(",");
 
                     LocalDateTime tradeDateTime = LocalDateTime.parse(data[0], FORMAT);
