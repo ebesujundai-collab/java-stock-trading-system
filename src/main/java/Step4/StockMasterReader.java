@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class StockMasterReader {
 
     private final Path filePath;
@@ -16,10 +15,13 @@ public class StockMasterReader {
         this.filePath = filePath;
     }
 
+    public boolean fileExists() {
+        return Files.exists(filePath);
+    }
+
     public List<StockMaster> findAll() {
 
-        List<StockMaster> stockMasters =
-                new ArrayList<>();
+        List<StockMaster> stockMasters = new ArrayList<>();
 
         try {
 
@@ -38,20 +40,16 @@ public class StockMasterReader {
 
             for (String line : dataLines) {
 
-                String[] data =
-                        line.split(",");
+                if (line.isBlank()) {
+                    continue;
+                }
 
-                String symbol =
-                        data[0];
+                String[] data = line.split(",");
 
-                String productName =
-                        data[1];
-
-                String exchangeMarket =
-                        data[2];
-
-                Long sharesIssued =
-                        Long.parseLong(data[3]);
+                String symbol = data[0];
+                String productName = data[1];
+                String exchangeMarket = data[2];
+                Long sharesIssued = Long.parseLong(data[3]);
 
                 StockMaster stockMaster =
                         new StockMaster(
@@ -70,5 +68,20 @@ public class StockMasterReader {
         }
 
         return stockMasters;
+    }
+
+    public StockMaster findBySymbol(String symbol) {
+
+        List<StockMaster> stockMasters =
+                findAll();
+
+        for (StockMaster stockMaster : stockMasters) {
+
+            if (stockMaster.getSymbol().equals(symbol)) {
+                return stockMaster;
+            }
+        }
+
+        return null;
     }
 }
