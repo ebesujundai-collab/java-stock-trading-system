@@ -1,5 +1,8 @@
 package com.example.trading.validator;
 
+import Step4.StockMaster;
+import Step4.StockMasterReader;
+
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
@@ -38,6 +41,38 @@ public class Validater {
             System.out.println("正しい銘柄コードを入力してください");
         }
     }
+        public StockMaster validationCode(StockMasterReader stockMasterReader) {
+
+            while (true) {
+
+                System.out.println("銘柄コード");
+
+                String inputSymbol =
+                        scanner.nextLine();
+
+                if (!Checks.isValidSymbol(inputSymbol)) {
+
+                    System.out.println(
+                            "正しい銘柄コードを入力してください"
+                    );
+
+                    continue;
+                }
+
+                StockMaster stockMaster = stockMasterReader.findBySymbol(inputSymbol);
+
+                if (stockMaster == null) {
+
+                    System.out.println(
+                            "銘柄マスタに存在しない銘柄コードです"
+                    );
+
+                    continue;
+                }
+
+                return stockMaster;
+            }
+        }
 
     public Side validationSide() {
         while (true) {
@@ -64,6 +99,50 @@ public class Validater {
                 System.out.println("正しい数量を入力してください");
             } catch (NumberFormatException e) {
                 System.out.println("不正な入力です");
+            }
+        }
+    }
+    public Long validationQuantity(
+            StockMaster stockMaster
+    ) {
+
+        while (true) {
+
+            try {
+
+                System.out.println("数量");
+
+                String inputQuantity =
+                        scanner.nextLine();
+
+                long quantity =
+                        Long.parseLong(inputQuantity);
+
+                if (!Checks.isValidQuantity(quantity)) {
+
+                    System.out.println(
+                            "正しい数量を入力してください"
+                    );
+
+                    continue;
+                }
+
+                if (quantity > stockMaster.getSharesIssued()) {
+
+                    System.out.println(
+                            "発行済み株式数を超えています"
+                    );
+
+                    continue;
+                }
+
+                return quantity;
+
+            } catch (NumberFormatException e) {
+
+                System.out.println(
+                        "不正な入力です"
+                );
             }
         }
     }

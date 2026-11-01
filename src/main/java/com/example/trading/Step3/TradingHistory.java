@@ -48,17 +48,18 @@ public class TradingHistory {
         return result;
     }
 
-    public List<Trading> getHistoryByStockCode(String stockcode) {
+    public List<Trading> getHistoryByStockCode(String stockCode) {
         List<Trading> allTradings = reader.findAll();
         List<Trading> result = new ArrayList<>();
-        Comparator<Trading> comparator = Comparator.comparing(trading -> trading.getTradeDateTime());
-        Comparator<Trading> reversedComparator = comparator.reversed();
-        result.sort(reversedComparator);
+
         for (Trading trading : allTradings) {
-            if (trading.getStockCode().equals(stockcode)) {
+            if (trading.getStockCode().equals(stockCode)) {
                 result.add(trading);
             }
         }
+        Comparator<Trading> comparator = Comparator.comparing(trading -> trading.getTradeDateTime());
+        Comparator<Trading> reversedComparator = comparator.reversed();
+        result.sort(reversedComparator);
         return result;
     }
 }

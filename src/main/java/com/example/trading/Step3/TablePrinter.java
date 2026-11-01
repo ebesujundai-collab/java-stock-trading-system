@@ -1,5 +1,7 @@
 package com.example.trading.Step3;
 
+import Step4.StockMaster;
+import Step4.StockMasterReader;
 import com.example.trading.validator.Trading;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -16,6 +18,12 @@ public class TablePrinter {
 
     private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,#00.0#");
 
+    private final StockMasterReader stockMasterReader;
+
+    public TablePrinter(StockMasterReader stockMasterReader) {
+        this.stockMasterReader = stockMasterReader;
+    }
+
 
     public void print(List<Trading> tradings) {
 
@@ -24,7 +32,7 @@ public class TablePrinter {
         System.out.printf(
                 "| %-16s | %-5s | %-4s | %-7s | %-10s | %-12s |%n",
                 "Traded DateTime",
-                "Symbol",
+                "Product",
                 "Side",
                 "Quantity",
                 "Unit-price",
@@ -37,7 +45,19 @@ public class TablePrinter {
 
             String dateTime = trading.getTradeDateTime().format(FORMAT);
 
-            String stockCode = trading.getStockCode();
+            StockMaster stockMaster = stockMasterReader.findBySymbol(trading.getStockCode());
+
+            String productName = "";
+
+            if (stockMaster != null) {
+                productName = stockMaster.getProductName();
+            }
+
+            if (productName.length() > 20) {
+                productName = productName.substring(0, 17) + "...";
+            }
+
+            String product = trading.getStockCode() + " " + productName;
 
             String side = trading.getTradeType().getDisplayName();
 
@@ -52,7 +72,7 @@ public class TablePrinter {
             System.out.printf(
                     "| %-16s | %-5s | %-4s | %-7s | %-10s | %-12s |%n",
                     dateTime,
-                    stockCode,
+                    product,
                     side,
                     quantity,
                     price,

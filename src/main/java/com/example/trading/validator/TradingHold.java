@@ -1,5 +1,6 @@
 package com.example.trading.validator;
 
+import Step4.StockMasterReader;
 import com.example.trading.repository.TradingWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,6 +11,11 @@ import java.time.LocalDateTime;
 public class  TradingHold {
     public void tradingHold() {
         TradingWriter tradingWriter = new TradingWriter(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
+        StockMasterReader stockMasterReader = new StockMasterReader(Path.of("src/main/java/com/example/trading/csv/stock master.csv"));
+        if (!stockMasterReader.fileExists()) {
+            System.out.println("銘柄マスタファイルが存在しません");
+            return;
+        }
         Validater result = new Validater();
         LocalDateTime dateTime = result.validationDate();
         String inputSymbol = result.validationCode();

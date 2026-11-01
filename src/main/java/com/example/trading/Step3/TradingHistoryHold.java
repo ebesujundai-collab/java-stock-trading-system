@@ -1,5 +1,6 @@
 package com.example.trading.Step3;
 
+import Step4.StockMasterReader;
 import com.example.trading.repository.TradingReader;
 import com.example.trading.validator.Checks;
 import com.example.trading.validator.Trading;
@@ -13,12 +14,17 @@ public class TradingHistoryHold {
 
         Scanner scanner = new Scanner(System.in);
         TradingReader reader = new TradingReader(Path.of("src/main/java/com/example/trading/csv/trading.csv"));
+        StockMasterReader stockMasterReader = new StockMasterReader(Path.of("src/main/java/com/example/trading/csv/stock master.csv"));
+        if (!stockMasterReader.fileExists()) {
+            System.out.println("銘柄マスタファイルが存在しません");
+            return;
+        }
         if (!reader.fileExists()) {
             System.out.println("ファイルが存在しません");
             return;
         }
         TradingHistory tradingHistory = new TradingHistory(reader);
-        TablePrinter printer = new TablePrinter();
+        TablePrinter printer = new TablePrinter(stockMasterReader);
 
 
         while (true) {
@@ -26,7 +32,7 @@ public class TradingHistoryHold {
             String input = scanner.nextLine();
             List<Trading> tradings;
                 try {
-                    HistoryType historyType = HistoryType.fromInput(scanner.nextLine());
+                    HistoryType historyType = HistoryType.fromInput(input);
                     tradings = tradingHistory.getHistory(historyType);
                 } catch (IllegalArgumentException e) {
                     if (!Checks.isValidSymbol(input)) {

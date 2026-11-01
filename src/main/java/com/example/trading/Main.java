@@ -29,7 +29,9 @@ public class Main {
                 TradingHistoryHold tradingHistoryHold = new TradingHistoryHold();
                 tradingHistoryHold.tradingHistoryHold();
 
-            }
+            } else if ("Q".equals(menu)) {
+            break;
+        }
         }
     }
 }
