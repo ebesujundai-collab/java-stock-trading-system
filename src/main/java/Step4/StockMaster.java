@@ -1,6 +1,5 @@
 package Step4;
 
-
 public class StockMaster {
 
     private final String symbol;
