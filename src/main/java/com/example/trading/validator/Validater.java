@@ -1,5 +1,6 @@
 package com.example.trading.validator;
 
+import com.example.trading.stock.StockMaster;
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
@@ -62,6 +63,31 @@ public class Validater {
                     return quantity;
                 }
                 System.out.println("正しい数量を入力してください");
+            } catch (NumberFormatException e) {
+                System.out.println("不正な入力です");
+            }
+        }
+    }
+
+    public Long validationQuantity(StockMaster stockMaster) {
+        while (true) {
+            try {
+                System.out.println("数量");
+                String inputQuantity = scanner.nextLine();
+                long quantity = Long.parseLong(inputQuantity);
+
+                if (!Checks.isValidQuantity(quantity)) {
+                    System.out.println("正しい数量を入力してください");
+                    continue;
+                }
+
+                if (quantity > stockMaster.getSharesIssued()) {
+                    System.out.println("発行済み株式数を超えています");
+                    continue;
+                }
+
+                return quantity;
+
             } catch (NumberFormatException e) {
                 System.out.println("不正な入力です");
             }
