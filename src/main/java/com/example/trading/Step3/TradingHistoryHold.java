@@ -1,7 +1,7 @@
 package com.example.trading.Step3;
 
+import Step4.StockMasterReader;
 import com.example.trading.repository.TradingReader;
-import com.example.trading.stock.StockMasterReader;
 import com.example.trading.validator.Checks;
 import com.example.trading.validator.Trading;
 import java.nio.file.Path;
@@ -12,7 +12,8 @@ import java.util.Scanner;
 public class TradingHistoryHold {
     public void tradingHistoryHold() {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner =
+                new Scanner(System.in);
 
         TradingReader reader =
                 new TradingReader(
@@ -34,18 +35,30 @@ public class TradingHistoryHold {
             return;
         }
 
-        TradingHistory tradingHistory = new TradingHistory(reader);
-        TablePrinter printer = new TablePrinter(stockMasterReader);
+        TradingHistory tradingHistory =
+                new TradingHistory(reader);
+
+        TablePrinter printer =
+                new TablePrinter(stockMasterReader);
 
         while (true) {
-            System.out.println("表示する日時を入力してください");
 
-            String input = scanner.nextLine();
+            System.out.println(
+                    "all / today / yesterday または銘柄コードを入力してください"
+            );
+
+            String input =
+                    scanner.nextLine();
+
             List<Trading> tradings;
 
             try {
-                HistoryType historyType = HistoryType.fromInput(input);
-                tradings = tradingHistory.getHistory(historyType);
+
+                HistoryType historyType =
+                        HistoryType.fromInput(input);
+
+                tradings =
+                        tradingHistory.getHistory(historyType);
 
             } catch (IllegalArgumentException e) {
 
@@ -54,7 +67,13 @@ public class TradingHistoryHold {
                     continue;
                 }
 
-                tradings = tradingHistory.getHistoryByStockCode(input);
+                tradings =
+                        tradingHistory.getHistoryByStockCode(input);
+            }
+
+            if (tradings.isEmpty()) {
+                System.out.println("該当する取引はありません");
+                continue;
             }
 
             printer.print(tradings);
