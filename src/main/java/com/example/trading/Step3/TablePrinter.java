@@ -1,7 +1,7 @@
 package com.example.trading.Step3;
 
-import com.example.trading.stock.StockMaster;
-import com.example.trading.stock.StockMasterReader;
+import Step4.StockMaster;
+import Step4.StockMasterReader;
 import com.example.trading.validator.Trading;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -13,11 +13,14 @@ public class TablePrinter {
 
     private final StockMasterReader stockMasterReader;
 
-    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("#,###");
+    private static final DecimalFormat NUMBER_FORMAT =
+            new DecimalFormat("#,###");
 
-    private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,#00.0#");
+    private static final DecimalFormat PRICE_FORMAT =
+            new DecimalFormat("#,##0.0#");
 
     public TablePrinter(StockMasterReader stockMasterReader) {
         this.stockMasterReader = stockMasterReader;
@@ -25,7 +28,9 @@ public class TablePrinter {
 
     public void print(List<Trading> tradings) {
 
-        System.out.println("+------------------+--------------------------------+------+-----------------+---------------+--------------------+");
+        System.out.println(
+                "+------------------+--------------------------------+------+-----------------+---------------+--------------------+"
+        );
 
         System.out.printf(
                 "| %-16s | %-30s | %-4s | %15s | %13s | %18s |%n",
@@ -37,38 +42,57 @@ public class TablePrinter {
                 "Amount"
         );
 
-        System.out.println("+------------------+--------------------------------+------+-----------------+---------------+--------------------+");
+        System.out.println(
+                "+------------------+--------------------------------+------+-----------------+---------------+--------------------+"
+        );
 
         for (Trading trading : tradings) {
 
-            String dateTime = trading.getTradeDateTime().format(FORMAT);
+            String dateTime =
+                    trading.getTradeDateTime().format(FORMAT);
 
             StockMaster stockMaster =
-                    stockMasterReader.findBySymbol(trading.getStockCode());
+                    stockMasterReader.findBySymbol(
+                            trading.getStockCode()
+                    );
 
             String productName = "";
 
             if (stockMaster != null) {
-                productName = stockMaster.getProductName();
+                productName =
+                        stockMaster.getProductName();
             }
 
             if (productName.length() > 20) {
-                productName = productName.substring(0, 17) + "...";
+                productName =
+                        productName.substring(0, 17) + "...";
             }
 
             String product =
-                    trading.getStockCode() + " " + productName;
+                    trading.getStockCode()
+                            + " "
+                            + productName;
 
-            String side = trading.getTradeType().getDisplayName();
+            String side =
+                    trading.getTradeType().getDisplayName();
 
-            String quantity = NUMBER_FORMAT.format(trading.getQuantity());
+            String quantity =
+                    NUMBER_FORMAT.format(
+                            trading.getQuantity()
+                    );
 
-            String price = PRICE_FORMAT.format(trading.getPrice());
+            String price =
+                    PRICE_FORMAT.format(
+                            trading.getPrice()
+                    );
 
             BigDecimal amount =
-                    BigDecimal.valueOf(trading.getQuantity()).multiply(trading.getPrice());
+                    BigDecimal
+                            .valueOf(trading.getQuantity())
+                            .multiply(trading.getPrice());
 
-            String amountText = NUMBER_FORMAT.format(amount);
+            String amountText =
+                    NUMBER_FORMAT.format(amount);
 
             System.out.printf(
                     "| %-16s | %-30s | %-4s | %15s | %13s | %18s |%n",
@@ -81,6 +105,8 @@ public class TablePrinter {
             );
         }
 
-        System.out.println("+------------------+--------------------------------+------+-----------------+---------------+--------------------+");
+        System.out.println(
+                "+------------------+--------------------------------+------+-----------------+---------------+--------------------+"
+        );
     }
 }
