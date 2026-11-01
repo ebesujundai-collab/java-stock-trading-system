@@ -1,6 +1,6 @@
 package com.example.trading.validator;
 
-import com.example.trading.stock.StockMaster;
+import Step4.StockMaster;
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
